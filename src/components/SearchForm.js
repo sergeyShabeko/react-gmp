@@ -4,7 +4,11 @@ export default function SearchForm({ initialQuery, onSearch }) {
   const [description, setDescription] = useState(initialQuery);
 
   return (
-    <form className="search-form" onSubmit={(e) => onSearch(description, e)}>
+    <form
+      className="search-form"
+      onSubmit={(e) => onSearch(description, e)}
+      data-testid="search-form"
+    >
       <input
         type="text"
         placeholder="What do you want to watch?"

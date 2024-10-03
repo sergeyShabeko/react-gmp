@@ -23,7 +23,7 @@ export default class Counter extends Component {
   render() {
     return React.createElement(
       "div",
-      null,
+      { "data-testid": "counter" },
       React.createElement("p", null, `Value: ${this.state.value}`),
       React.createElement("button", { onClick: this.decrement }, "-"),
       React.createElement("button", { onClick: this.increment }, "+")
