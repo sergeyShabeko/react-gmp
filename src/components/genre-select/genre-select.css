@@ -1,0 +1,18 @@
+.genre-menu {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 40px;
+  background-color: #232323;
+}
+
+.active {
+  border: 0;
+  border-bottom: 3px solid red;
+}
+
+.genre-menu button {
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #232323;
+}

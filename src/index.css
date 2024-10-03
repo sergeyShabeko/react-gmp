@@ -11,22 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-.search-form,
-.genre-menu {
-  padding-top: 40px;
-}
-
-.search-form input {
-  width: 500px;
-}
-
-.active {
-  border: 0;
-  border-bottom: 3px solid red;
-}
-
-.genre-menu button {
-  padding: 10px;
-  cursor: pointer;
-}

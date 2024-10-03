@@ -4,7 +4,7 @@ import user from "@testing-library/user-event";
 
 describe("Counter", () => {
   test("renders correctly", () => {
-    render(<Counter />);
+    render(<Counter initialValue={0} />);
 
     const countElement = screen.getByTestId("counter");
     expect(countElement).toBeInTheDocument();

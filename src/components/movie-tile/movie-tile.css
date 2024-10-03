@@ -1,0 +1,74 @@
+img {
+  width: 310px;
+  height: 400px;
+}
+
+.movie-tile {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  height: 500px;
+  position: relative;
+  background-color: #232323;
+}
+
+.movie-info {
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  color: #ffffff;
+}
+
+.movie-info-year {
+  padding: 5px;
+  border: 2px solid #555555;
+  border-radius: 10px;
+}
+
+.context-menu {
+  position: absolute;
+  top: 10px;
+  right: 70px;
+}
+
+.context-menu-button {
+  background-color: #252525;
+  color: #ffffff;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  border: none;
+}
+
+.context-menu-button:hover {
+  cursor: pointer;
+}
+
+.context-menu-popup {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0px;
+  right: 0;
+  background: #555555;
+  z-index: 1000;
+  width: 80px;
+  padding-top: 3px;
+  padding-bottom: 5px;
+}
+
+.context-menu-popup button {
+  cursor: pointer;
+  background: #555555;
+  color: #ffffff;
+  border: none;
+}
+
+.context-menu-popup-close {
+  align-self: flex-end;
+}
+
+.context-menu-popup-button:hover {
+  cursor: pointer;
+  background-color: #f65261;
+}
