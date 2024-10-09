@@ -1,0 +1,54 @@
+.form-comtrols {
+  display: flex;
+  padding-bottom: 20px;
+  justify-content: space-around;
+  color: #fff;
+}
+
+.form-comtrols > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.select-box {
+  width: 100%;
+  position: relative;
+  display: inline-block;
+}
+
+.select-box-button {
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.select-box-options {
+  width: 100%;
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  z-index: 1;
+}
+
+.select-box-button:focus + .select-box-options,
+.select-box-options:hover {
+  display: block;
+}
+
+.select-box-option {
+  background-color: #252525;
+}
+
+.select-box-option input {
+  margin-right: 10px;
+}
+
+.overview-control {
+  padding-bottom: 20px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}

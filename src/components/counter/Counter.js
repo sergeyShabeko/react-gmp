@@ -1,5 +1,6 @@
 import { Component } from "react";
 import React from "react";
+import PropTypes from "prop-types";
 
 export default class Counter extends Component {
   constructor(props) {
@@ -7,18 +8,15 @@ export default class Counter extends Component {
     this.state = {
       value: props.initialValue,
     };
-
-    this.increment = this.increment.bind(this);
-    this.decrement = this.decrement.bind(this);
   }
 
-  increment() {
+  increment = () => {
     this.setState((state) => ({ value: state.value + 1 }));
-  }
+  };
 
-  decrement() {
+  decrement = () => {
     this.setState((state) => ({ value: state.value - 1 }));
-  }
+  };
 
   render() {
     return React.createElement(
@@ -30,3 +28,11 @@ export default class Counter extends Component {
     );
   }
 }
+
+Counter.propTypes = {
+  initialValue: PropTypes.number.isRequired,
+};
+
+Counter.defaultProps = {
+  initialValue: 0,
+};

@@ -1,0 +1,38 @@
+label {
+  padding-right: 20px;
+}
+
+select {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0 20px 0 0;
+  color: #fff; /* Цвет текста */
+  font-size: 16px;
+}
+
+.sort-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 40px;
+  color: #929292;
+  background-color: #232323;
+}
+
+.sort-control::after {
+  font-size: 9px;
+  content: "▼";
+  position: absolute;
+  right: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: red;
+}
+
+select option {
+  background-color: #232323;
+  color: #fff;
+}
