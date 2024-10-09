@@ -13,3 +13,7 @@
   justify-content: space-between;
   background-color: #232323;
 }
+
+.delete-message {
+  color: #fff;
+}
