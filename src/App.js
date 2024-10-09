@@ -6,8 +6,6 @@ import GenreSelect from "./components/genre-select/GenreSelect";
 import MovieTile from "./components/movie-tile/MovieTile";
 import MovieDetails from "./components/movie-details/MovieDetails";
 import SortControl from "./components/sort-control/SortControl";
-import Dialog from "./components/dialog/Dialog";
-import MovieForm from "./components/movie-form/MovieForm";
 
 const movies = [
   {
@@ -34,19 +32,9 @@ const movies = [
   },
 ];
 
-const deleteMessage = (
-  <div className="delete-message">
-    <p>Are you sure you want to delete this movie?</p>
-    <button>CONFIRM</button>
-  </div>
-);
-
 function App() {
   const [selectedMovie, setSelectedMovie] = useState(false);
   const [currentSelection, setCurrentSelection] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editedMovie, setEditedMovie] = useState({});
-  const [dialogTitle, setDialogTitle] = useState("");
 
   function onSearch(description, e) {
     e.preventDefault();
@@ -65,49 +53,10 @@ function App() {
     setCurrentSelection(value);
   }
 
-  function addMovie() {
-    setIsDialogOpen(true);
-    setDialogTitle("ADD MOVIE");
-    setEditedMovie({});
-  }
-
-  function onCloseDialog() {
-    setIsDialogOpen(false);
-  }
-
-  function editMovie(movie) {
-    setIsDialogOpen(true);
-    setDialogTitle("EDIT MOVIE");
-    setEditedMovie(movie);
-  }
-
-  function deleteMovie(movie) {
-    setIsDialogOpen(true);
-    setDialogTitle("DELETE MOVIE");
-    setEditedMovie();
-  }
-
-  function onSaveMovie(movie) {}
-
   return (
     <div className="App" data-testid="app-component">
       {/* <Counter initialValue={0} /> */}
       <SearchForm initialQuery="Initial Query" onSearch={onSearch} />
-      <button onClick={addMovie}>Add movie</button>
-      {isDialogOpen &&
-        (editedMovie ? (
-          <Dialog
-            title={dialogTitle}
-            children={<MovieForm movie={editedMovie} onSubmit={onSaveMovie} />}
-            onCloseDialog={onCloseDialog}
-          />
-        ) : (
-          <Dialog
-            title={dialogTitle}
-            children={deleteMessage}
-            onCloseDialog={onCloseDialog}
-          />
-        ))}
       <div className="nav-container">
         <GenreSelect
           onSelect={onSelect}
@@ -122,13 +71,7 @@ function App() {
       {selectedMovie && <MovieDetails movie={selectedMovie} />}
       <div className="movie-container">
         {movies.map((movie, ind) => (
-          <MovieTile
-            key={ind}
-            movie={movie}
-            onClick={onMovieTileClicked}
-            editMovie={editMovie}
-            deleteMovie={deleteMovie}
-          />
+          <MovieTile key={ind} movie={movie} onClick={onMovieTileClicked} />
         ))}
       </div>
     </div>
