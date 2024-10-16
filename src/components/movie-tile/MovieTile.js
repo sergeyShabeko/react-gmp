@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./movie-tile.css";
 
 export default function MovieTile({ movie, onClick, editMovie, deleteMovie }) {
-  const { imageUrl, name, releaseYear, genres } = movie;
+  const { poster_path, title, release_date, genres } = movie;
   const [showContextMenu, setShowContextMenu] = useState(false);
 
   function handleContextMenu(e) {
@@ -24,13 +24,15 @@ export default function MovieTile({ movie, onClick, editMovie, deleteMovie }) {
 
   return (
     <div className="movie-tile" onClick={() => onClick(movie)}>
-      <img src={imageUrl} alt={name} />
+      <img src={poster_path} alt={title} />
       <div className="movie-info">
         <div>
-          <p>{name}</p>
-          <p>{genres.join(", ")}</p>
+          <p>{title}</p>
+          <p className="genres-tile">{genres.join(", ")}</p>
         </div>
-        <div className="movie-info-year">{releaseYear}</div>
+        <div className="movie-info-year">
+          {new Date(release_date).getFullYear()}
+        </div>
         <div className="context-menu">
           <button className="context-menu-button" onClick={handleContextMenu}>
             ⋮

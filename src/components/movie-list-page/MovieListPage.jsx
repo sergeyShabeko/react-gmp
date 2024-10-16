@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchForm from "../search-form/SearchForm";
 import GenreSelect from "../genre-select/GenreSelect";
 import MovieTile from "../movie-tile/MovieTile";
@@ -7,31 +7,6 @@ import SortControl from "../sort-control/SortControl";
 import Dialog from "../dialog/Dialog";
 import MovieForm from "../movie-form/MovieForm";
 import "./MovieListPage.css";
-
-const movies = [
-  {
-    imageUrl:
-      "https://avatars.mds.yandex.net/get-kinopoisk-image/1946459/84934543-5991-4c93-97eb-beb6186a3ad7/600x900",
-    name: "Joker",
-    releaseYear: 2019,
-    genres: ["Horror", "Crime"],
-    description:
-      "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-    rating: "8.9",
-    duration: "2h 15min",
-  },
-  {
-    imageUrl:
-      "https://avatars.mds.yandex.net/get-kinopoisk-image/1599028/c11652e8-653b-47c1-8e72-1552399a775b/600x900",
-    name: "The Godfather",
-    releaseYear: 1972,
-    genres: ["Crime"],
-    description:
-      "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-    rating: "9.2",
-    duration: "1h 55min",
-  },
-];
 
 const deleteMessage = (
   <div className="delete-message">
@@ -42,29 +17,55 @@ const deleteMessage = (
 
 export default function MovieListPage() {
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [sortCriterion, setSortCriterion] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(null);
-  const [activeGenre, setActiveGenre] = useState(null);
+  const [sortCriterion, setSortCriterion] = useState("release_date");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeGenre, setActiveGenre] = useState("ALL");
   const [movieList, setMovieList] = useState([]);
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editedMovie, setEditedMovie] = useState({});
   const [dialogTitle, setDialogTitle] = useState("");
 
-  const onSearch = (description, e) => {
+  const url = `http://localhost:4000/movies?limit=100&search=${searchQuery}&filter=${
+    activeGenre === "ALL" ? "" : activeGenre
+  }&searchBy=title&sortBy=${sortCriterion}&sortOrder=asc`;
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetch(url, { signal })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMovieList(data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, [sortCriterion, searchQuery, activeGenre]);
+
+  const onSearch = (newQuery, e) => {
     e.preventDefault();
-    console.log(description);
+    setSearchQuery(newQuery);
   };
 
-  const onSelect = (genreName) => {
-    console.log(genreName);
+  const onSelectGenre = (genreName) => {
+    setActiveGenre(genreName);
   };
 
   const onMovieTileClicked = (movieName) => {
     setSelectedMovie(movieName);
   };
 
-  const onSelectionChange = (value) => {
+  const onSortingChange = (value) => {
     setSortCriterion(value);
   };
 
@@ -90,6 +91,10 @@ export default function MovieListPage() {
     setEditedMovie();
   };
 
+  const closeDetailPage = () => {
+    setSelectedMovie(null);
+  };
+
   const onSaveMovie = (movie) => {};
   return (
     <>
@@ -100,32 +105,40 @@ export default function MovieListPage() {
           </span>
           roulette
         </p>
-        <button onClick={addMovie}>+ Add movie</button>
+        {!selectedMovie && <button onClick={addMovie}>+ Add movie</button>}
+        {selectedMovie && (
+          <button className="lupa" onClick={closeDetailPage}>
+            🔍
+          </button>
+        )}
       </div>
-      <h2>FIND YOUR MOVIE</h2>
-      <SearchForm initialQuery="Initial Query" onSearch={onSearch} />
+      {!selectedMovie && <h2>FIND YOUR MOVIE</h2>}
+      {!selectedMovie && (
+        <SearchForm initialQuery={searchQuery} onSearch={onSearch} />
+      )}
+      {selectedMovie && <MovieDetails movie={selectedMovie} />}
       <div className="nav-container">
         <GenreSelect
-          onSelect={onSelect}
+          onSelect={onSelectGenre}
           genres={["ALL", "DOCUMENTARY", "COMEDY", "HORROR", "CRIME"]}
-          selectedGenre="COMEDY"
+          selectedGenre={activeGenre}
         />
         <SortControl
+          searchQuery={searchQuery}
           sortCriterion={sortCriterion}
-          onSelectionChange={onSelectionChange}
+          onSelectionChange={onSortingChange}
         />
       </div>
       <p className="films-count">
         <span>
-          <strong>39&nbsp;</strong>
+          <strong>{movieList.length}&nbsp;</strong>
         </span>
         movies found
       </p>
-      {selectedMovie && <MovieDetails movie={selectedMovie} />}
       <div className="movie-container">
-        {movies.map((movie, ind) => (
+        {movieList.map((movie) => (
           <MovieTile
-            key={ind}
+            key={movie.id}
             movie={movie}
             onClick={onMovieTileClicked}
             editMovie={editMovie}

@@ -37,6 +37,11 @@
   cursor: pointer;
 }
 
+.lupa {
+  font-size: 25px;
+  background-color: #232323 !important;
+}
+
 footer {
   display: flex;
   background-color: #424242;

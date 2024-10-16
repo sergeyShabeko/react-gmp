@@ -10,7 +10,7 @@ export default function SortControl({ sortCriterion, onSelectionChange }) {
         value={sortCriterion}
         onChange={(e) => onSelectionChange(e.target.value)}
       >
-        <option value="releaseDate">Release Date</option>
+        <option value="release_date">Release Date</option>
         <option value="title">Title</option>
       </select>
     </div>

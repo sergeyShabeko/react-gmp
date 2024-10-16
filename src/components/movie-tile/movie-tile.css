@@ -19,6 +19,10 @@ img {
   color: #ffffff;
 }
 
+.genres-tile {
+  font-size: 12px;
+}
+
 .movie-info p {
   display: flex;
   margin-top: 5px;
