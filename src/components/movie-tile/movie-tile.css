@@ -14,15 +14,23 @@ img {
 
 .movie-info {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: baseline;
   color: #ffffff;
 }
 
+.movie-info p {
+  display: flex;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .movie-info-year {
+  margin-top: 5px;
   padding: 5px;
   border: 2px solid #555555;
   border-radius: 10px;
+  margin-right: 60px;
 }
 
 .context-menu {
@@ -68,7 +76,21 @@ img {
   align-self: flex-end;
 }
 
+.context-menu-popup-button {
+  height: 30px;
+}
+
 .context-menu-popup-button:hover {
   cursor: pointer;
   background-color: #f65261;
+}
+
+.submition-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+}
+.reset-button {
+  background-color: transparent;
+  color: #f65261;
 }

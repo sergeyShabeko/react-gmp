@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./search-form.css";
-import PropTypes from "prop-types";
 
 export default function SearchForm({ initialQuery, onSearch }) {
   const [description, setDescription] = useState(initialQuery);
@@ -21,12 +20,3 @@ export default function SearchForm({ initialQuery, onSearch }) {
     </form>
   );
 }
-
-SearchForm.propTypes = {
-  initialQuery: PropTypes.string,
-  onSearch: PropTypes.func,
-};
-
-SearchForm.defaultProps = {
-  initialQuery: "Initial Query",
-};

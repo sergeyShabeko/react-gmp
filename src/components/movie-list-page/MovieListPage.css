@@ -1,0 +1,52 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.header-container > p {
+  color: #f65251;
+}
+
+.header-container > button {
+  color: #f65251;
+  background-color: #424242;
+  border: none;
+  height: 30px;
+  cursor: pointer;
+}
+
+.films-count {
+  color: #fff;
+  display: flex;
+}
+
+.films-count > span {
+  color: #fff;
+  padding-left: 30px;
+}
+
+.delete-message > button {
+  color: #fff;
+  background-color: #f65251;
+  border: none;
+  height: 30px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+footer {
+  display: flex;
+  background-color: #424242;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+footer > p {
+  color: #f65251;
+  margin: 0;
+}

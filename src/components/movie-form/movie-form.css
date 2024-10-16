@@ -1,7 +1,12 @@
+.form-label {
+  color: #f65251;
+  margin-top: 7px;
+}
+
 .form-comtrols {
   display: flex;
   padding-bottom: 20px;
-  justify-content: space-around;
+  justify-content: space-between;
   color: #fff;
 }
 
@@ -22,6 +27,9 @@
   text-align: left;
   border: 1px solid #ccc;
   cursor: pointer;
+  background-color: #424242;
+  color: #fff;
+  height: 27px;
 }
 
 .select-box-options {
@@ -40,6 +48,9 @@
 
 .select-box-option {
   background-color: #252525;
+  height: 30px;
+  display: flex;
+  align-items: center;
 }
 
 .select-box-option input {
@@ -51,4 +62,54 @@
   color: #fff;
   display: flex;
   flex-direction: column;
+}
+.overview-control > label {
+  color: #f65251;
+}
+
+.overview-control > textarea {
+  color: #fff;
+}
+
+.form-input {
+  background-color: #424242;
+  width: 280px;
+  border: none;
+  color: #fff;
+  height: 25px;
+}
+
+.form-second-input,
+.react-datepicker__input-container > input {
+  color: #fff;
+  background-color: #424242;
+  width: 173px;
+  border: none;
+  height: 25px;
+}
+
+.select-box {
+  background-color: #424242;
+  width: 280px;
+  border: none;
+  color: #fff;
+  height: 25px;
+}
+
+.form-overview {
+  background-color: #424242;
+  border: none;
+}
+
+.reset-button {
+  border: 1px solid #f65251;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.submit-button {
+  background-color: #f65251;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }

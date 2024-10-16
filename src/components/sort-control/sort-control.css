@@ -29,10 +29,13 @@ select {
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  color: red;
+  color: #f65251;
 }
 
 select option {
-  background-color: #232323;
+  color: #f65251;
+  background-color: #424242;
+  border: none;
+  height: 50px;
   color: #fff;
 }
