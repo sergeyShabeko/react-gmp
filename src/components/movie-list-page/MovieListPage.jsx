@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import SearchForm from "../search-form/SearchForm";
+import { useSearchParams, Outlet, useNavigate } from "react-router-dom";
 import GenreSelect from "../genre-select/GenreSelect";
 import MovieTile from "../movie-tile/MovieTile";
-import MovieDetails from "../movie-details/MovieDetails";
 import SortControl from "../sort-control/SortControl";
 import Dialog from "../dialog/Dialog";
 import MovieForm from "../movie-form/MovieForm";
@@ -16,14 +15,18 @@ const deleteMessage = (
 );
 
 export default function MovieListPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [sortCriterion, setSortCriterion] = useState("release_date");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeGenre, setActiveGenre] = useState("ALL");
   const [movieList, setMovieList] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editedMovie, setEditedMovie] = useState({});
   const [dialogTitle, setDialogTitle] = useState("");
+
+  const sortCriterion = searchParams.get("sort") || "release_date";
+  const searchQuery = searchParams.get("search") || "";
+  const activeGenre = searchParams.get("genre") || "ALL";
+
+  const navigate = useNavigate();
 
   const url = `http://localhost:4000/movies?limit=100&search=${searchQuery}&filter=${
     activeGenre === "ALL" ? "" : activeGenre
@@ -54,19 +57,31 @@ export default function MovieListPage() {
 
   const onSearch = (newQuery, e) => {
     e.preventDefault();
-    setSearchQuery(newQuery);
+    setSearchParams({
+      search: newQuery,
+      sort: sortCriterion,
+      genre: activeGenre,
+    });
   };
 
   const onSelectGenre = (genreName) => {
-    setActiveGenre(genreName);
+    setSearchParams({
+      search: searchQuery,
+      sort: sortCriterion,
+      genre: genreName,
+    });
   };
 
-  const onMovieTileClicked = (movieName) => {
-    setSelectedMovie(movieName);
+  const onMovieTileClicked = (movie) => {
+    setSelectedMovie(movie);
+    navigate(
+      `/${movie.id}?search=${searchQuery}&sort=${sortCriterion}&genre=${activeGenre}`,
+      { replace: true }
+    );
   };
 
   const onSortingChange = (value) => {
-    setSortCriterion(value);
+    setSearchParams({ search: searchQuery, sort: value, genre: activeGenre });
   };
 
   const addMovie = () => {
@@ -93,11 +108,15 @@ export default function MovieListPage() {
 
   const closeDetailPage = () => {
     setSelectedMovie(null);
+    navigate(
+      `/?search=${searchQuery}&sort=${sortCriterion}&genre=${activeGenre}`,
+      { replace: true }
+    );
   };
 
   const onSaveMovie = (movie) => {};
   return (
-    <>
+    <div className="App">
       <div className="header-container">
         <p>
           <span>
@@ -113,10 +132,11 @@ export default function MovieListPage() {
         )}
       </div>
       {!selectedMovie && <h2>FIND YOUR MOVIE</h2>}
-      {!selectedMovie && (
+      {/* {!selectedMovie && (
         <SearchForm initialQuery={searchQuery} onSearch={onSearch} />
-      )}
-      {selectedMovie && <MovieDetails movie={selectedMovie} />}
+      )} */}
+      {/* {selectedMovie && <MovieDetails movie={selectedMovie} />} */}
+      <Outlet context={{ searchQuery, sortCriterion, activeGenre }} />
       <div className="nav-container">
         <GenreSelect
           onSelect={onSelectGenre}
@@ -168,6 +188,6 @@ export default function MovieListPage() {
             onCloseDialog={onCloseDialog}
           />
         ))}
-    </>
+    </div>
   );
 }
