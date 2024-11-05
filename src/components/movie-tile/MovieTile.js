@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./movie-tile.css";
 
 export default function MovieTile({ movie, onClick, editMovie, deleteMovie }) {
@@ -45,12 +46,9 @@ export default function MovieTile({ movie, onClick, editMovie, deleteMovie }) {
               >
                 X
               </button>
-              <button
-                className="context-menu-popup-button"
-                onClick={(e) => onEditClicked(e)}
-              >
+              <Link className="context-menu-popup-button" to={`/${movie.id}/edit`} onClick={(e) => e.stopPropagation()}>
                 Edit
-              </button>
+              </Link>
               <button
                 className="context-menu-popup-button"
                 onClick={(e) => onDeleteClicked(e)}

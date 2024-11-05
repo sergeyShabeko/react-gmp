@@ -1,63 +1,73 @@
 import React, { useState } from "react";
-import "./movie-form.css";
+import { useForm, useWatch } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "./movie-form.css";
 
 const genres = ["Documentary", "Comedy", "Horror", "Crime"];
 
 export default function MovieForm({ movie, onSubmit }) {
+  const { register, handleSubmit, control, formState: { errors } } = useForm();
   const [startDate, setStartDate] = useState(
-    new Date(movie.releaseYear || 1970, 1, 1)
+    new Date(movie.release_date || "1970, 1, 1")
   );
 
-  const handleSubmit = (event) => {
+  const selectedGenres = useWatch({
+    control,
+    name: "genres",
+    defaultValue: movie.genres || []
+  });
+
+  const onSubmitForm = (data) => {
+    const selectedGenresArray = genres.filter((genre, index) => selectedGenres[index]);
+    onSubmit({ ...data, genres: selectedGenresArray, release_date: startDate});
+  };
+
+  const handleGenreButtonClick = (event) => {
     event.preventDefault();
-    const formData = Object.fromEntries(new FormData(event.target));
-    console.log("Form Data:", formData);
-    onSubmit(formData);
   };
 
   return (
-    <form onSubmit={(event) => handleSubmit(event)}>
-      <div className="form-comtrols">
+    <form onSubmit={handleSubmit(onSubmitForm)}>
+      <div className="form-controls">
         <div>
-          <label className="form-label" htmlFor="title">
-            TITLE
-          </label>
+          <label className="form-label" htmlFor="title">TITLE</label>
           <input
             className="form-input"
             type="text"
             id="title"
             name="title"
-            value={movie.name}
+            defaultValue={movie.title}
+            {...register("title", { required: true })}
           />
-          <label className="form-label" htmlFor="movieURL">
-            MOVIE URL
-          </label>
+          {errors.title && <span>This field is required</span>}
+          <label className="form-label" htmlFor="poster_path">MOVIE URL</label>
           <input
             className="form-input"
             type="text"
-            id="movieURL"
-            name="movieURL"
-            value={movie.imageUrl}
+            id="poster_path"
+            name="poster_path"
+            defaultValue={movie.poster_path}
+            {...register("poster_path", { required: true, pattern: {
+              value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i,
+              message: "Invalid URL"
+            } })}
           />
-          <label className="form-label" htmlFor="genre-select">
-            GENRE
-          </label>
+          {errors.poster_path && <span>This field is required</span>}
+          <label className="form-label" htmlFor="genre-select">GENRE</label>
           <div>
             <div className="select-box">
-              <button id="genre-select" className="select-box-button">
-                Select Genre
-              </button>
+              <button id="genre-select" className="select-box-button" onClick={handleGenreButtonClick}>Select Genre</button>
               <div className="select-box-options">
-                {genres.map((genre, ind) => (
+              {genres.map((genre, ind) => (
                   <div key={ind} className="select-box-option">
                     <input
                       type="checkbox"
                       id={genre}
-                      name="genres"
+                      name={`genres[${ind}]`}
                       value={genre}
                       defaultChecked={movie.genres?.includes(genre)}
+                      {...register(`genres[${ind}]`)}
                     />
                     <label htmlFor={genre}>{genre}</label>
                   </div>
@@ -67,55 +77,50 @@ export default function MovieForm({ movie, onSubmit }) {
           </div>
         </div>
         <div>
-          <label className="form-label" htmlFor="date-picker">
-            RELEASE DATE
-          </label>
+          <label className="form-label" htmlFor="date-picker">RELEASE DATE</label>
           <DatePicker
             id="date-picker"
             selected={startDate}
             onChange={(date) => setStartDate(date)}
           />
-          <label className="form-label" htmlFor="rating">
-            RATING
-          </label>
+          <label className="form-label" htmlFor="vote_average">RATING</label>
           <input
             className="form-second-input"
-            type="text"
-            id="rating"
-            name="rating"
-            value={movie.rating}
+            type="number"
+            id="vote_average"
+            name="vote_average"
+            defaultValue={movie.vote_average}
+            {...register("vote_average", { required: true, valueAsNumber: true  })}
           />
-          <label className="form-label" htmlFor="runtime">
-            RUNTIME
-          </label>
+          {errors.vote_average && <span>This field is required</span>}
+          <label className="form-label" htmlFor="runtime">RUNTIME</label>
           <input
             className="form-second-input"
-            type="text"
+            type="number"
             id="runtime"
             name="runtime"
-            value={movie.duration}
+            defaultValue={movie.runtime}
+            {...register("runtime", { required: true, valueAsNumber: true  })}
           />
+          {errors.runtime && <span>This field is required</span>}
         </div>
       </div>
       <div className="overview-control">
-        <label htmlFor="description">OVERVIEW</label>
+        <label htmlFor="overview">OVERVIEW</label>
         <textarea
-          id="description"
+          id="overview"
           className="form-overview"
-          name="description"
+          name="overview"
           rows="7"
           cols="50"
-        >
-          {movie.description}
-        </textarea>
+          defaultValue={movie.overview}
+          {...register("overview", { required: true })}
+        />
+        {errors.overview && <span>This field is required</span>}
       </div>
-      <div className="submition-buttons">
-        <button className="reset-button" type="reset">
-          RESET
-        </button>
-        <button className="submit-button" type="submit">
-          SUBMIT
-        </button>
+      <div className="submission-buttons">
+        <button className="reset-button" type="reset">RESET</button>
+        <button className="submit-button" type="submit">SUBMIT</button>
       </div>
     </form>
   );

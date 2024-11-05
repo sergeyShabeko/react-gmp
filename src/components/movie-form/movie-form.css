@@ -3,14 +3,14 @@
   margin-top: 7px;
 }
 
-.form-comtrols {
+.form-controls {
   display: flex;
   padding-bottom: 20px;
   justify-content: space-between;
   color: #fff;
 }
 
-.form-comtrols > div {
+.form-controls > div {
   display: flex;
   flex-direction: column;
 }

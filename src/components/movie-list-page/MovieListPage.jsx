@@ -5,6 +5,7 @@ import MovieTile from "../movie-tile/MovieTile";
 import SortControl from "../sort-control/SortControl";
 import Dialog from "../dialog/Dialog";
 import MovieForm from "../movie-form/MovieForm";
+import SearchForm from "../search-form/SearchForm"
 import "./MovieListPage.css";
 
 const deleteMessage = (
@@ -85,9 +86,9 @@ export default function MovieListPage() {
   };
 
   const addMovie = () => {
-    setIsDialogOpen(true);
     setDialogTitle("ADD MOVIE");
     setEditedMovie({});
+    navigate(`/new`);
   };
 
   const onCloseDialog = () => {
@@ -95,9 +96,9 @@ export default function MovieListPage() {
   };
 
   const editMovie = (movie) => {
-    setIsDialogOpen(true);
     setDialogTitle("EDIT MOVIE");
     setEditedMovie(movie);
+    navigate(`/${movie.id}/edit`);
   };
 
   const deleteMovie = (movie) => {
@@ -115,6 +116,7 @@ export default function MovieListPage() {
   };
 
   const onSaveMovie = (movie) => {};
+
   return (
     <div className="App">
       <div className="header-container">
@@ -132,10 +134,9 @@ export default function MovieListPage() {
         )}
       </div>
       {!selectedMovie && <h2>FIND YOUR MOVIE</h2>}
-      {/* {!selectedMovie && (
+      {!selectedMovie && (
         <SearchForm initialQuery={searchQuery} onSearch={onSearch} />
-      )} */}
-      {/* {selectedMovie && <MovieDetails movie={selectedMovie} />} */}
+      )}
       <Outlet context={{ searchQuery, sortCriterion, activeGenre }} />
       <div className="nav-container">
         <GenreSelect
@@ -151,7 +152,7 @@ export default function MovieListPage() {
       </div>
       <p className="films-count">
         <span>
-          <strong>{movieList.length}&nbsp;</strong>
+          <strong>{movieList.length} </strong>
         </span>
         movies found
       </p>
