@@ -9,15 +9,13 @@ import EditMovieForm from "./components/edit-movie-form/EditMovieForm";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MovieListPage />}>
-          <Route path="new" element={<AddMovieForm />} />
-          <Route path=":movieId" element={<MovieDetailsWrapper />} />
-          <Route path=":movieId/edit" element={<EditMovieForm />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<MovieListPage />}>
+        <Route path="new" element={<AddMovieForm />} />
+        <Route path=":movieId" element={<MovieDetailsWrapper />} />
+        <Route path=":movieId/edit" element={<EditMovieForm />} />
+      </Route>
+    </Routes>
   );
 }
 

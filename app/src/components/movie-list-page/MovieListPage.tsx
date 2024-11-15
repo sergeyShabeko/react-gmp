@@ -56,7 +56,7 @@ export default function MovieListPage() {
     };
   }, [sortCriterion, searchQuery, activeGenre]);
 
-  const onSearch = (newQuery, e) => {
+  const onSearch = (newQuery: string, e: Event) => {
     e.preventDefault();
     setSearchParams({
       search: newQuery,
@@ -65,7 +65,7 @@ export default function MovieListPage() {
     });
   };
 
-  const onSelectGenre = (genreName) => {
+  const onSelectGenre = (genreName: string) => {
     setSearchParams({
       search: searchQuery,
       sort: sortCriterion,
@@ -73,7 +73,7 @@ export default function MovieListPage() {
     });
   };
 
-  const onMovieTileClicked = (movie) => {
+  const onMovieTileClicked = (movie: any) => {
     setSelectedMovie(movie);
     navigate(
       `/${movie.id}?search=${searchQuery}&sort=${sortCriterion}&genre=${activeGenre}`,
@@ -81,7 +81,7 @@ export default function MovieListPage() {
     );
   };
 
-  const onSortingChange = (value) => {
+  const onSortingChange = (value: string) => {
     setSearchParams({ search: searchQuery, sort: value, genre: activeGenre });
   };
 
@@ -95,16 +95,16 @@ export default function MovieListPage() {
     setIsDialogOpen(false);
   };
 
-  const editMovie = (movie) => {
+  const editMovie = (movie: any) => {
     setDialogTitle("EDIT MOVIE");
     setEditedMovie(movie);
     navigate(`/${movie.id}/edit`);
   };
 
-  const deleteMovie = (movie) => {
+  const deleteMovie = () => {
     setIsDialogOpen(true);
     setDialogTitle("DELETE MOVIE");
-    setEditedMovie();
+    //setEditedMovie();
   };
 
   const closeDetailPage = () => {
@@ -115,7 +115,7 @@ export default function MovieListPage() {
     );
   };
 
-  const onSaveMovie = (movie) => {};
+  const onSaveMovie = () => {};
 
   return (
     <div className="App">
@@ -192,3 +192,7 @@ export default function MovieListPage() {
     </div>
   );
 }
+
+// export default function MovieListPage() {
+//   return <div>MovieListPage</div>
+// }
